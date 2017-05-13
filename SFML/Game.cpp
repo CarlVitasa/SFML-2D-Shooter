@@ -12,7 +12,7 @@ Enemy enemy(window.getSize().x, window.getSize().y);
 Game::Game()
 {	
 	window.setFramerateLimit(500);
-	player.spawn(window.getSize().x/2, window.getSize().y - window.getSize().y/4);
+	player.spawn(window.getSize().x/2.0f, window.getSize().y - window.getSize().y/4.0f);
 }
 
 void Game::Run()

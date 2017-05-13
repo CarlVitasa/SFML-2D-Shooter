@@ -11,7 +11,7 @@ Player::Player(int _windowWidth, int _windowHeight)
 	playerSprite.setColor(sf::Color(255, 255, 255, 200));
 }
 
-void Player::spawn(int posX, int posY)
+void Player::spawn(float posX, float posY)
 {
 	playerSprite.setPosition(posX, posY);
 	playerSprite.setOrigin(playerSprite.getTextureRect().width / 2.0f,
@@ -31,13 +31,13 @@ void Player::move(double deltaTime)
 		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == -100 &&
 		playerSprite.getPosition().x >= playerSprite.getTextureRect().width / 2.0f)
 	{
-		playerSprite.move(sf::Vector2f(-speed * deltaTime, 0));
+		playerSprite.move(-speed * deltaTime, 0);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && 
 		playerSprite.getPosition().x <= windowWidth - playerSprite.getTextureRect().width / 2.0f ||
 		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == 100 && 
 		playerSprite.getPosition().x <= windowWidth - playerSprite.getTextureRect().width / 2.0f)
 	{
-		playerSprite.move(sf::Vector2f(speed * deltaTime, 0));
+		playerSprite.move(speed * deltaTime, 0);
 	}
 }
