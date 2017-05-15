@@ -5,11 +5,13 @@ SFML-2D-Shooter
 
 To Do
 ------
-* Player Projectiles
-* Shooting Sound FX
-* Scrolling Background
-* Enemy Spawning
-* Entity Management
+* Player projectiles
+* projectiles sound FX
+* Scrolling background
+* Background music
+* Lerp enemy movement 
+* Enemy spawner
+* Entity management
 
 Learning Outcomes
 ------
