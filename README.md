@@ -6,6 +6,7 @@ SFML-2D-Shooter
 To Do
 ------
 * Player projectiles
+* Particl FX for thrusters and explosions
 * projectiles sound FX
 * Scrolling background
 * Background music
@@ -15,9 +16,9 @@ To Do
 
 Learning Outcomes
 ------
-* Intergating version control using Github
+* Intergation of version control using Github
 * Implementation of game programming patterns
-* Documenating process using Markdown
+* Documenation of process using Markdown
 
 Notes
 ------
