@@ -1,8 +1,15 @@
 SFML-2D-Shooter
 ------
-Summary
+* A 2D space shooter made using SFML, coded in C++
+* This project is currently under development
+
+To Do
 ------
-WIP - 2D Shooter coded in C++ using SFML
+* Player Projectiles
+* Shooting Sound FX
+* Scrolling Background
+* Enemy Spawning
+* Entity Management
 
 Learning Outcomes
 ------
@@ -10,5 +17,7 @@ Learning Outcomes
 * Implementation of game programming patterns
 * Documenating process using Markdown
 
-Note: In order to run project copy the project properties.
+Notes
+------
+* In order to run project copy the project properties.
 
