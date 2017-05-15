@@ -3,16 +3,20 @@
 class Enemy
 {
 public:
-	Enemy(int _windowWidth, int _windowHeight);
+	Enemy(const int _windowWidth, const int _windowHeight);
+	void spawn(float posX, float posY);
 	void draw(sf::RenderWindow &window);
-	void move(double deltaTime);
+	void move(float deltaTime);
 
 private:
 	int windowWidth;
 	int windowHeight;
 	float posX;
 	float posY;
-	float speed = 500.0f;
+	float startingPosX;
+	float startingPosY;
+	float speedX = 500.0f;
+	float speedY = 200.0f;
 	bool goRight;
 	sf::Sprite enemySprite;
 	sf::Texture enemyTexture;

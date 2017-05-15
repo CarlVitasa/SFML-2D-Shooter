@@ -9,26 +9,34 @@ sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML Application", sf::Style
 Player player(window.getSize().x, window.getSize().y);
 Enemy enemy(window.getSize().x, window.getSize().y);
 
-Game::Game()
-{	
-	window.setFramerateLimit(500);
-	player.spawn(window.getSize().x/2.0f, window.getSize().y - window.getSize().y/4.0f);
+Game &Game::getInstance()
+{
+	static Game self;
+	return self;
 }
 
-void Game::Run()
+// Start of the Game
+Game::Game()
+{	
+	player.spawn(window.getSize().x/2.0f, window.getSize().y - window.getSize().y/4.0f);
+	enemy.spawn(window.getSize().x / 2.0f, window.getSize().y - (window.getSize().y / 4.0f) * 3.0f);
+}
+
+// Game Loop
+void Game::run()
 {
 	sf::Clock clock;
 	while (window.isOpen())
 	{
-		double deltaTime = clock.restart().asSeconds();
+		float deltaTime = clock.restart().asSeconds();
 		
-		ProcessInput();
-		Update(deltaTime);
-		Render();
+		processInput();
+		update(deltaTime);
+		render();
 	}
 }
 
-void Game::ProcessInput()
+void Game::processInput()
 {
 	sf::Event event;
 	while (window.pollEvent(event))
@@ -40,16 +48,19 @@ void Game::ProcessInput()
 	}
 }
 
-void Game::Update(double deltaTime) 
+void Game::update(float deltaTime)
 {
 	player.move(deltaTime);
 	enemy.move(deltaTime);
 }
 
-void Game::Render()
+void Game::render()
 {
 	window.clear();
+
+	
 	player.draw(window);
 	enemy.draw(window);
+	
 	window.display();
 }

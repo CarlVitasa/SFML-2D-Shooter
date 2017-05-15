@@ -3,12 +3,13 @@
 class Game
 {
 public:
-	Game();
-	void Run();
+	static Game &getInstance();
+	void run();
 
 private:
-	void ProcessInput();
-	void Update(double deltaTime);
-	void Render();
+	Game();
+	void processInput();
+	void update(float deltaTime);
+	void render();
 
 };
