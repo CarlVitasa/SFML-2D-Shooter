@@ -1,39 +1,37 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
 #include "Enemy.h"
 
-Enemy::Enemy(const int _windowWidth, const int _windowHeight)
+Enemy::Enemy(sf::RenderWindow& l_window) : m_window(l_window)
 {
-	windowWidth = _windowWidth;
-	windowHeight = _windowHeight;
+	m_windowWidth = m_window.getSize().x;
+	m_windowHeight = m_window.getSize().y;
 
-	enemyTexture.loadFromFile("Resources/Sprites/Enemy.png");
-	enemySprite.setTexture(enemyTexture);
-	enemySprite.setColor(sf::Color(255, 255, 255, 200));
+	m_enemyTexture.loadFromFile("Resources/Sprites/Enemy.png");
+	m_enemySprite.setTexture(m_enemyTexture);
+	m_enemySprite.setColor(sf::Color(255, 255, 255, 200));
 }
 
-void Enemy::spawn(float posX, float posY)
+void Enemy::spawn(float l_posX, float l_posY)
 {
-	startingPosX = posX;
-	startingPosY = posY;
-	enemySprite.setPosition(posX, posY);
-	enemySprite.setOrigin(enemySprite.getTextureRect().width / 2.0f,
-						  enemySprite.getTextureRect().height / 2.0f);
+	m_startingPosX = l_posX;
+	m_startingPosY = l_posY;
+	m_enemySprite.setPosition(l_posX, l_posY);
+	m_enemySprite.setOrigin(m_enemySprite.getTextureRect().width / 2.0f,
+							m_enemySprite.getTextureRect().height / 2.0f);
 }
 
-void Enemy::draw(sf::RenderWindow &window)
+void Enemy::draw(sf::RenderWindow& window)
 {
-	window.draw(enemySprite);
+	window.draw(m_enemySprite);
 }
 
-void Enemy::move(float deltaTime)
+void Enemy::move(float l_deltaTime)
 {
-	posX = speedX * deltaTime;
-	posY = speedY * deltaTime;
+	m_posX = m_speedX * l_deltaTime;
+	m_posY = m_speedY * l_deltaTime;
 
-	enemySprite.move({posX, posY});
+	m_enemySprite.move({ m_posX, m_posY});
 	
-	if (enemySprite.getPosition().x >= startingPosX + enemySprite.getTextureRect().width * 2.0f ||
-		enemySprite.getPosition().x <= startingPosX + enemySprite.getTextureRect().width * -2.0f)
-	{ speedX *= -1; }
+	if (m_enemySprite.getPosition().x >= m_startingPosX + m_enemySprite.getTextureRect().width * 2.0f ||
+		m_enemySprite.getPosition().x <= m_startingPosX + m_enemySprite.getTextureRect().width * -2.0f)
+	{ m_speedX *= -1; }
 }

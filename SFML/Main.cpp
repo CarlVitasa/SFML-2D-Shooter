@@ -5,7 +5,7 @@
 int main()
 {
 	Game& game = Game::getInstance();
-	game.run();
+	game.runGameLoop();
 	return 0;
 }
 

@@ -1,46 +1,73 @@
-//#include <iostream>
-#include <SFML/Graphics.hpp>
 #include "Player.h"
- 
-Player::Player(const int _windowWidth, const int _windowHeight)
+#include "Projectile.h"
+
+Player::Player(sf::RenderWindow& l_window) : m_window(l_window)
 {
-	windowWidth = _windowWidth;
-	windowHeight = _windowHeight;
-	playerTexture.loadFromFile("Resources/Sprites/Player.png");
-	playerTexture.setSmooth(true);
-	playerSprite.setTexture(playerTexture);
-	playerSprite.setColor(sf::Color(255, 255, 255, 200));
+	m_windowWidth = m_window.getSize().x;
+	m_windowHeight = m_window.getSize().y;
+	m_playerTexture.loadFromFile("Resources/Sprites/Player.png");
+	m_playerTexture.setSmooth(true);
+	m_playerSprite.setTexture(m_playerTexture);
+	m_playerSprite.setColor(sf::Color(255, 255, 255, 200));
 }
 
-void Player::spawn(float posX, float posY)
+void Player::spawn(float l_posX, float l_posY)
 {
-	playerSprite.setPosition(posX, posY);
-	playerSprite.setOrigin(playerSprite.getTextureRect().width / 2.0f, 
-						   playerSprite.getTextureRect().height / 2.0f);
+	m_playerSprite.setPosition(l_posX, l_posY);
+	m_playerSprite.setOrigin(m_playerSprite.getTextureRect().width / 2.0f,
+							 m_playerSprite.getTextureRect().height / 2.0f);
 }
 
-void Player::draw(sf::RenderWindow &window)
+void Player::draw(sf::RenderWindow& l_window)
 {
-	window.draw(playerSprite);
+	l_window.draw(m_playerSprite);
 }
 
-void Player::move(float deltaTime)
+float Player::getPosX()
+{
+	return m_playerSprite.getPosition().x;
+}
+
+float Player::getPosY()
+{
+	return m_playerSprite.getPosition().y;
+}
+
+float Player::getWidth()
+{
+	return m_playerSprite.getTextureRect().width;
+}
+
+float Player::getHeight()
+{
+	return m_playerSprite.getTextureRect().height;
+}
+
+void Player::move(std::string l_playerDirection, float l_deltaTime)
 {	
+	m_deltaTime = l_deltaTime;
+	
 	// move left
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && 
-		playerSprite.getPosition().x >= playerSprite.getTextureRect().width / 2.0f ||
-		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == -100 &&
-		playerSprite.getPosition().x >= playerSprite.getTextureRect().width / 2.0f)
+    if (l_playerDirection == "Left")
 	{
-		playerSprite.move(-speed * deltaTime, 0.0f);
+		m_playerSprite.move(-m_speed * l_deltaTime, 0.0f);
 	}
 
 	// move right
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && 
-		playerSprite.getPosition().x <= windowWidth - playerSprite.getTextureRect().width / 2.0f ||
-		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == 100 && 
-		playerSprite.getPosition().x <= windowWidth - playerSprite.getTextureRect().width / 2.0f)
+	else if (l_playerDirection == "Right")
 	{
-		playerSprite.move(speed * deltaTime, 0.0f);
+		m_playerSprite.move(m_speed * l_deltaTime, 0.0f);
 	}
+	else if (l_playerDirection == "None")
+	{
+		m_playerSprite.move(0.0f, 0.0f);
+	}
+
+	// shoot Projectile
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	//{
+	//	Projectile projectile(m_window);
+	//	projectile.spawn(m_posX, m_posY, l_deltaTime);
+	//	std::cout << "fire" << std::endl;
+	//}
 }

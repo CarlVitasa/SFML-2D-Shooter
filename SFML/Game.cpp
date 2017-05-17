@@ -1,15 +1,17 @@
-#include <iostream>
-#include <SFML\Graphics.hpp>
 #include "Game.h"
-#include "Player.h"
-#include "Enemy.h"
+#include "Projectile.h"
 
-sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML Application", sf::Style::Fullscreen);
+const int m_windowWidth = 700;
+const int m_windowHeight = 900;
+std::string m_playerDirection = "None";
 
-Player player(window.getSize().x, window.getSize().y);
-Enemy enemy(window.getSize().x, window.getSize().y);
+sf::RenderWindow m_window(sf::VideoMode(m_windowWidth, m_windowHeight), "SFML-2D-Shooter", sf::Style::Default);
 
-Game &Game::getInstance()
+Player player(m_window);
+Enemy enemy(m_window);
+Projectile projectile(m_window);
+
+Game& Game::getInstance()
 {
 	static Game self;
 	return self;
@@ -18,19 +20,19 @@ Game &Game::getInstance()
 // Start of the Game
 Game::Game()
 {	
-	player.spawn(window.getSize().x/2.0f, window.getSize().y - window.getSize().y/4.0f);
-	enemy.spawn(window.getSize().x / 2.0f, window.getSize().y - (window.getSize().y / 4.0f) * 3.0f);
+	player.spawn(m_windowWidth /2.0f, m_windowHeight - m_windowHeight /6.0f);
+	enemy.spawn(m_windowWidth / 2.0f, m_windowHeight - (m_windowHeight / 4.0f) * 3.0f);
 }
 
 // Game Loop
-void Game::run()
+void Game::runGameLoop()
 {
 	sf::Clock clock;
-	while (window.isOpen())
+	while (m_window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds();
 		
-		processInput();
+		processInput();	
 		update(deltaTime);
 		render();
 	}
@@ -38,29 +40,50 @@ void Game::run()
 
 void Game::processInput()
 {
+	// X Button --> quit game
 	sf::Event event;
-	while (window.pollEvent(event))
+	while (m_window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed || 
-			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) 
-		{ window.close(); }
-
+		if (event.type == sf::Event::Closed)
+		{ m_window.close(); }
 	}
+
+	// escape key --> quit game
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{ m_window.close(); }
+	
+	// move player Left
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
+		player.getPosX() >= player.getWidth() / 2.0f ||
+		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == -100 &&
+		player.getPosX() >= player.getWidth() / 2.0f)
+	{
+		m_playerDirection = "Left";
+	}
+
+	// move player right
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) &&
+		player.getPosX() <= m_windowWidth - player.getWidth() / 2.0f ||
+		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == 100 &&
+		player.getPosX() <= m_windowWidth - player.getWidth() / 2.0f)
+	{
+		m_playerDirection = "Right";
+	}
+	else { m_playerDirection = "None"; }
 }
 
-void Game::update(float deltaTime)
+void Game::update(float l_deltaTime)
 {
-	player.move(deltaTime);
-	enemy.move(deltaTime);
+	player.move(m_playerDirection, l_deltaTime);
+	enemy.move(l_deltaTime);
 }
 
 void Game::render()
 {
-	window.clear();
+	m_window.clear();
 
+	player.draw(m_window);
+	enemy.draw(m_window);
 	
-	player.draw(window);
-	enemy.draw(window);
-	
-	window.display();
+	m_window.display();
 }
