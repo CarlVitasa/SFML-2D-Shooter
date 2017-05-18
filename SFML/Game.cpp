@@ -4,12 +4,14 @@
 const int m_windowWidth = 700;
 const int m_windowHeight = 900;
 std::string m_playerDirection = "None";
+bool isFiring = false;
+bool popBack = false;
 
 sf::RenderWindow m_window(sf::VideoMode(m_windowWidth, m_windowHeight), "SFML-2D-Shooter", sf::Style::Default);
 
 Player player(m_window);
 Enemy enemy(m_window);
-Projectile projectile(m_window);
+std::deque<Projectile> projectileVector;
 
 Game& Game::getInstance()
 {
@@ -48,11 +50,11 @@ void Game::processInput()
 		{ m_window.close(); }
 	}
 
-	// escape key --> quit game
+	// Escape key --> quit game
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{ m_window.close(); }
 	
-	// move player Left
+	// A key --> move player Left
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
 		player.getPosX() >= player.getWidth() / 2.0f ||
 		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == -100 &&
@@ -61,7 +63,7 @@ void Game::processInput()
 		m_playerDirection = "Left";
 	}
 
-	// move player right
+	// D key --> move player right
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) &&
 		player.getPosX() <= m_windowWidth - player.getWidth() / 2.0f ||
 		sf::Joystick::getAxisPosition(0, sf::Joystick::X) == 100 &&
@@ -70,20 +72,61 @@ void Game::processInput()
 		m_playerDirection = "Right";
 	}
 	else { m_playerDirection = "None"; }
+
+
+	// Space bar --> Firing projectiles 
+	if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+	{
+		isFiring = true;
+	}
 }
 
 void Game::update(float l_deltaTime)
 {
 	player.move(m_playerDirection, l_deltaTime);
 	enemy.move(l_deltaTime);
+	
+	// check bullet 
+	if (isFiring)
+	{
+		Projectile projectile(m_window);
+		projectile.spawn(player.getPosX(), player.getPosY());
+		projectileVector.push_back(projectile);
+		isFiring = false;
+		//std::cout << projectileVector.size() << std::endl;
+	}
+
+	for (size_t i = 0; i < projectileVector.size(); i++)
+	{
+		projectileVector[i].shoot(l_deltaTime);
+		if (projectileVector[i].getPosY() <= 0 && projectileVector.size() > 0)
+		{
+			popBack = true;
+		}
+	}
+	if (popBack)
+	{
+		if (projectileVector.size() > 0)
+		{	
+			projectileVector.pop_front();
+			popBack = false;
+			std::cout << projectileVector.size() << std::endl;
+		}
+	}
+	
 }
 
 void Game::render()
 {
 	m_window.clear();
 
-	player.draw(m_window);
+	for (size_t i = 0; i < projectileVector.size(); i++)
+	{
+		projectileVector[i].draw(m_window);
+	}
+
 	enemy.draw(m_window);
-	
+	player.draw(m_window);
+
 	m_window.display();
 }

@@ -8,7 +8,6 @@ Player::Player(sf::RenderWindow& l_window) : m_window(l_window)
 	m_playerTexture.loadFromFile("Resources/Sprites/Player.png");
 	m_playerTexture.setSmooth(true);
 	m_playerSprite.setTexture(m_playerTexture);
-	m_playerSprite.setColor(sf::Color(255, 255, 255, 200));
 }
 
 void Player::spawn(float l_posX, float l_posY)
@@ -33,12 +32,12 @@ float Player::getPosY()
 	return m_playerSprite.getPosition().y;
 }
 
-float Player::getWidth()
+int Player::getWidth()
 {
 	return m_playerSprite.getTextureRect().width;
 }
 
-float Player::getHeight()
+int Player::getHeight()
 {
 	return m_playerSprite.getTextureRect().height;
 }
@@ -62,12 +61,4 @@ void Player::move(std::string l_playerDirection, float l_deltaTime)
 	{
 		m_playerSprite.move(0.0f, 0.0f);
 	}
-
-	// shoot Projectile
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	//{
-	//	Projectile projectile(m_window);
-	//	projectile.spawn(m_posX, m_posY, l_deltaTime);
-	//	std::cout << "fire" << std::endl;
-	//}
 }

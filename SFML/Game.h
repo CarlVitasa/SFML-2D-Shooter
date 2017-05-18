@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <deque>
 #include <string>
 #include <SFML\Graphics.hpp>
 #include "Player.h"

@@ -163,7 +163,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc" />

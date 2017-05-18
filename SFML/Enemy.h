@@ -18,8 +18,8 @@ private:
 	float m_posY;
 	float m_startingPosX;
 	float m_startingPosY;
-	float m_speedX = 500.0f;
-	float m_speedY = 200.0f;
+	float m_speedX = 300.0f;
+	float m_speedY = 100.0f;
 	bool m_goRight;
 	sf::Sprite m_enemySprite;
 	sf::Texture m_enemyTexture;

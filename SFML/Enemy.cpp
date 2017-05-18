@@ -6,8 +6,8 @@ Enemy::Enemy(sf::RenderWindow& l_window) : m_window(l_window)
 	m_windowHeight = m_window.getSize().y;
 
 	m_enemyTexture.loadFromFile("Resources/Sprites/Enemy.png");
+	m_enemyTexture.setSmooth(true);
 	m_enemySprite.setTexture(m_enemyTexture);
-	m_enemySprite.setColor(sf::Color(255, 255, 255, 200));
 }
 
 void Enemy::spawn(float l_posX, float l_posY)

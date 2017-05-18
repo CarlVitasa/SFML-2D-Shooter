@@ -10,8 +10,8 @@ public:
 	void draw(sf::RenderWindow& l_window);
 	float getPosX();
 	float getPosY();
-	float getWidth();
-	float getHeight();
+	int getWidth();
+	int getHeight();
 	void move(std::string l_playerDirection, float l_deltaTime);
 
 private:
@@ -21,7 +21,7 @@ private:
 	float m_posX;
 	float m_posY;
 	float m_deltaTime;
-	const float m_speed = 1000.0f; // when changing speed rebuild solution before compiling
+	const float m_speed = 800.0f; // when changing speed rebuild solution before compiling
 	sf::Sprite m_playerSprite;
 	sf::Texture m_playerTexture;
 };
