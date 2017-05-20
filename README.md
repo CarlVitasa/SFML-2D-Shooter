@@ -18,6 +18,10 @@ Learning Outcomes
 ------
 * Intergation of version control using Github
 * Implementation of game programming patterns
+  * Game Loop
+  * Game States
+  * Delta Time and Fixed Time Step
+  * Object Management (creation and destruction)
 * Documenation of process using Markdown
 
 Notes
